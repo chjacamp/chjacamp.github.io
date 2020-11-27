@@ -1,0 +1,51 @@
+baseURL: https://chjacamp.github.io
+languageCode: en
+DefaultContentLanguage: en
+title: Statistics, wrongly.
+theme: anatole
+summarylength: 10
+enableEmoji: yes
+enableRobotsTXT: yes
+ignoreFiles: ["\\.Rmd$", "\\.Rmarkdown$", "_cache$", "\\.knit\\.md$", "\\.utf8\\.md$"]
+params:
+  author: Christopher Campbell
+  customCss: []
+  customJs: []
+  description: Doing statistics. Wrongly.
+  favicon: favicons/
+  images: images/site-feature-image.png
+  keywords: ''
+  mainSections: post
+  math:
+    enable: no
+    use: katex
+  profilePicture: images/headshot.png
+  socialIcons:
+    - icon: fab fa-linkedin
+      title: Linkedin
+      url: https://www.linkedin.com/in/christopher-campbell-73954496/
+    - icon: fab fa-github
+      title: GitHub
+      url: https://github.com/chjacamp/
+    - icon: fas fa-envelope
+      title: e-mail
+      url: mailto:chjacamp@gmail.com
+  title: Christopher Campbell
+menu:
+  main:
+    - identifier: home
+      name: Home
+      url: /
+      weight: 100
+    - identifier: posts
+      name: Posts
+      url: /post/
+      weight: 200
+    - identifier: about
+      name: About
+      url: /about/
+      weight: 300
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
