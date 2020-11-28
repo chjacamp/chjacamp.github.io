@@ -171,7 +171,7 @@
 ##     formals(FUNV) &lt;- formals(FUN)
 ##     FUNV
 ## }
-## &lt;bytecode: 0x0000000015c4d668&gt;
+## &lt;bytecode: 0x0000000015c3d668&gt;
 ## &lt;environment: namespace:base&gt;</code></pre>
 <p>Boy, that’s pretty complicated. But now, maybe we can add a call to browser() in the code to better understand what is happening, line by line.</p>
 <pre class="r"><code>Vectorize_browser &lt;- function(FUN, vectorize.args = arg.names, 
@@ -220,7 +220,7 @@ dput(x)</code></pre>
 <div id="rlangcall2-and-splicing-with" class="section level3">
 <h3>3. <code>rlang::call2</code> and splicing with <code>!!!</code></h3>
 <p>Sometimes you want to give an end user the ability to exchange functions to be executed on data. This can happen when data, filtering, grouping, and merging stay fixed, but the functions need to be swapped. While <code>dplyr</code> has many programmatic options for this, <code>data.table</code> does not. Fortunately, using <code>call2</code> and splicing simplifies this procedure.</p>
-<p>Consider the “assign by reference” function <code>data.table::`:=`</code>. This function adds a column to a data.table by reference to another column in that <code>data.table</code> but without needing to copy anything. It’s basically <code>mutate</code> from <code>dplyr</code> but more efficient and can operate with respect to joins and <code>data.table</code>’s <span class="math inline">\(i\)</span> argument. How can we allow a user to construct their own calls to <code>:=</code>?</p>
+<p>Consider the “assign by reference” function <code>data.table::`:=`</code>. This function adds a column to a <code>data.table</code> by reference to another column in that <code>data.table</code> but without needing to copy anything. It’s basically <code>mutate</code> from <code>dplyr</code> but more efficient and can operate with respect to joins and <code>data.table</code>’s <span class="math inline">\(i\)</span> argument. How can we allow a user to construct their own calls to <code>:=</code>?</p>
 <pre class="r"><code>library(data.table)
 library(rlang)
 data(mtcars)
@@ -248,17 +248,17 @@ my_tabPanels &lt;- lapply(my_tabs, shiny::tabPanel)
 # wont work - shiny::tabsetPanel(...=my_tabs)
 do.call(shiny::tabsetPanel, args = my_tabPanels)</code></pre>
 <div class="tabbable">
-<ul class="nav nav-tabs" data-tabsetid="3278">
+<ul class="nav nav-tabs" data-tabsetid="4136">
 <li class="active">
-<a href="#tab-3278-1" data-toggle="tab" data-value="tab1">tab1</a>
+<a href="#tab-4136-1" data-toggle="tab" data-value="tab1">tab1</a>
 </li>
 <li>
-<a href="#tab-3278-2" data-toggle="tab" data-value="tab2">tab2</a>
+<a href="#tab-4136-2" data-toggle="tab" data-value="tab2">tab2</a>
 </li>
 </ul>
-<div class="tab-content" data-tabsetid="3278">
-<div class="tab-pane active" data-value="tab1" id="tab-3278-1"></div>
-<div class="tab-pane" data-value="tab2" id="tab-3278-2"></div>
+<div class="tab-content" data-tabsetid="4136">
+<div class="tab-pane active" data-value="tab1" id="tab-4136-1"></div>
+<div class="tab-pane" data-value="tab2" id="tab-4136-2"></div>
 </div>
 </div>
 </div>
