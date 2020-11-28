@@ -1,0 +1,137 @@
+---
+title: "R functions I wish I knew earlier"
+author: "Christopher Campbell"
+date: '2020-11-27'
+slug: []
+categories: R
+tags:
+- base
+- metaprogramming
+Description: ''
+Tags: []
+Categories: []
+DisableComments: no
+---
+
+Much of my time spent R programming revolves around figuring out ways to automate the creation of shiny reports. During the past two years, I've found the following functions indispensable:
+
+### 1. `browser` and `shinyjs::logjs` - debugging functions
+
+`browser` interrupts a function and opens a session of R with access to the environment where browser was called from while `logjs` sends objects to the (web) browser console.
+
+Both tools are invaluable for debugging and understanding code. I find `logjs` to be a good backup to `browser` - e.g. I may not have RStudio installed on a production server, but I need to have better diagnostics than error logs. 
+
+One great use of `browser` is to add it to a function you want to better understand. For instance, let's look at using it in `Vectorize`:
+
+```{r}
+Vectorize
+```
+
+Boy, that's pretty complicated. But now, maybe we can add a call to browser() in the code to better understand what is happening, line by line.
+
+```{r}
+Vectorize_browser <- function(FUN, vectorize.args = arg.names, 
+                              SIMPLIFY = TRUE, USE.NAMES = TRUE) 
+{
+
+    browser()
+  
+    arg.names <- as.list(formals(FUN))
+    arg.names[["..."]] <- NULL
+    arg.names <- names(arg.names)
+    vectorize.args <- as.character(vectorize.args)
+    if (!length(vectorize.args)) 
+        return(FUN)
+    if (!all(vectorize.args %in% arg.names)) 
+        stop("must specify names of formal arguments for 'vectorize'")
+    collisions <- arg.names %in% c("FUN", "SIMPLIFY", 
+        "USE.NAMES", "vectorize.args")
+    if (any(collisions)) 
+        stop(sQuote("FUN"), " may not have argument(s) named ", 
+            paste(sQuote(arg.names[collisions]), collapse = ", "))
+    FUNV <- function() {
+        args <- lapply(as.list(match.call())[-1L], eval, parent.frame())
+        names <- if (is.null(names(args))) 
+            character(length(args))
+        else names(args)
+        dovec <- names %in% vectorize.args
+        do.call("mapply", c(FUN = FUN, args[dovec], MoreArgs = list(args[!dovec]), 
+            SIMPLIFY = SIMPLIFY, USE.NAMES = USE.NAMES))
+    }
+    formals(FUNV) <- formals(FUN)
+    FUNV
+}
+
+```
+
+Try this in your own session!
+
+```{r eval=FALSE}
+## not run
+Vectorize_browser(stats::integrate, vectorize.args = c('lower', 'upper'))
+```
+
+
+### 2. dput
+
+`dput` provides an inverse to writing code for most R objects. Consider:
+
+```{r}
+x <- list(a=1:7)
+dput(x)
+```
+
+In addition, `dput()` can write to files and even delay evaluation of quoted expressions. I find this useful for when you want an end user to have access to a bit of code you want the user to be able to change, but you also want to treat this code as an object (such as a specification `list` for shiny applications). (Also, see `?..deparseOpts` for various ways to style `dput` output - including options to preserve quoted expressions).
+
+### 3. `rlang::call2` and splicing with `!!!`
+
+Sometimes you want to give an end user the ability to exchange functions to be executed on data. This can happen when data, filtering, grouping, and merging stay fixed, but the functions need to be swapped. While `dplyr` has many programmatic options for this, `data.table` does not. Fortunately, using `call2` and splicing simplifies this procedure. 
+
+Consider the "assign by reference" function ``data.table::`:=` ``. This function adds a column to a data.table by reference to another column in that `data.table` but without needing to copy anything. It's basically `mutate` from `dplyr` but more efficient and can operate with respect to joins and `data.table`'s $i$ argument. How can we allow a user to construct their own calls to `:=`?
+
+```{r warning=FALSE, message=FALSE}
+library(data.table)
+library(rlang)
+data(mtcars)
+setDT(mtcars)
+user_functions <- list(var1 = c('sum', 'hp'), 
+                       var2 = c('prop.table', 'mpg')) 
+# if you don't trust the user, make sure to approve the functions 
+# they may use first - may only want to allow sum, unique, prop.table, etc...
+calls <- lapply(user_functions, 
+       function(x) call(x[[1]], as.name(x[-1])))
+
+mtcars[,eval(call2(':=', !!!calls ))]
+
+```
+
+```{r echo=F}
+mtcars[,.(var1, var2)][1:3,]
+```
+
+What we've done is spliced language objects into `:=`. Before splicing, it was hard to construct these sorts of calls because the arguments to `:=` must happen sequentially. 
+
+However, even this problem can be overcome with `do.call`.
+
+### 4. `do.call` - a combination of `call` and `eval`
+
+Let's say you want to programmatically add a certain number of tabs to a shiny report. Perhaps you get stuck because `shiny::tabsetPanel` takes only `...`, so you know it's expecting tabs to be added sequentially, i.e. `shiny::tabsetPanel(tabPanel('tab1'), tabPanel('tab2'))`. You can always overcome this difficulty with `do.call`. 
+
+```{r}
+my_tabs <- c('tab1', 'tab2')
+my_tabPanels <- lapply(my_tabs, shiny::tabPanel)
+# wont work - shiny::tabsetPanel(...=my_tabs)
+do.call(shiny::tabsetPanel, args = my_tabPanels)
+
+```
+
+### 5. `system.file`
+
+`system.file` is the answer to self-referencing within your own R package. It can find a file or folder within the user's directory structure, just given a package name.
+
+```{r}
+system.file('help', package='base')
+```
+
+For those who make heavy use of the 'Inst' directory and auxiliary javascript and CSS files, it's nice to have a way to access those that works from machine to machine.
+
