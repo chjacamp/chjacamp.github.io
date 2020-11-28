@@ -10,7 +10,7 @@ ignoreFiles: ["\\.Rmd$", "\\.Rmarkdown$", "_cache$", "\\.knit\\.md$", "\\.utf8\\
 publishDir: docs
 params:
   author: Christopher Campbell
-  customCss: []
+  customCss: ["css/styles.css"]
   customJs: []
   description: Doing statistics. Wrongly.
   favicon: favicons/
