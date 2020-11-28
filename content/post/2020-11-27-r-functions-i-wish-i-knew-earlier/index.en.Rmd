@@ -87,7 +87,7 @@ In addition, `dput()` can write to files and even delay evaluation of quoted exp
 
 Sometimes you want to give an end user the ability to exchange functions to be executed on data. This can happen when data, filtering, grouping, and merging stay fixed, but the functions need to be swapped. While `dplyr` has many programmatic options for this, `data.table` does not. Fortunately, using `call2` and splicing simplifies this procedure. 
 
-Consider the "assign by reference" function ``data.table::`:=` ``. This function adds a column to a `data.table` by reference to another column in that `data.table` but without needing to copy anything. It's basically `mutate` from `dplyr` but more efficient and can operate with respect to joins and `data.table`'s $i$ argument. How can we allow a user to construct their own calls to `:=`?
+Consider the "assign by reference" function ``data.table::`:=` ``. This function adds a column to a `data.table` by reference to another column in that `data.table` but without needing to copy anything. It's basically `mutate` from `dplyr` but more efficient and can operate with respect to joins and `data.table`'s `$i$` argument. How can we allow a user to construct their own calls to `:=`?
 
 ```{r warning=FALSE, message=FALSE}
 library(data.table)
