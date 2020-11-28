@@ -18,7 +18,7 @@ params:
   keywords: ''
   mainSections: post
   math:
-    enable: yes
+    enable: true
     use: katex
   profilePicture: images/headshot.png
   socialIcons:
