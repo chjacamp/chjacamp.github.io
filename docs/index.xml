@@ -13,7 +13,7 @@
       <pubDate>Fri, 27 Nov 2020 00:00:00 +0000</pubDate>
       
       <guid>https://chjacamp.github.io/post/2020-11-27-r-functions-i-wish-i-knew-earlier/</guid>
-      <description>Much of my time spent R programming revolves around figuring out ways to automate the creation of shiny reports.</description>
+      <description>Much of my time spent R programming revolves around figuring out ways to automate the creation of shiny reports; during the past two years, I’ve found the following functions indispensable.</description>
     </item>
     
     <item>
@@ -31,7 +31,7 @@
       <pubDate>Thu, 28 Feb 2019 00:00:00 +0000</pubDate>
       
       <guid>https://chjacamp.github.io/about/</guid>
-      <description>MathJax.Hub.Config({tex2jax: {inlineMath: [ [&#39;$&#39;,&#39;$&#39;], [&#34;\\(&#34;,&#34;\\)&#34;] ],displayMath: [ [&#39;$$&#39;,&#39;$$&#39;], [&#34;</description>
+      <description>Welcome to my blog. I am a graduate student at Iowa State Department of Statistics and a corporate research assistant (RA) to After, Inc.</description>
     </item>
     
   </channel>
