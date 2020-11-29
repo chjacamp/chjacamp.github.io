@@ -12,7 +12,7 @@
       <pubDate>Fri, 27 Nov 2020 00:00:00 +0000</pubDate>
       
       <guid>https://chjacamp.github.io/post/</guid>
-      <description></description>
+      <description>MathJax.Hub.Config({tex2jax: {inlineMath: [ [&#39;$&#39;,&#39;$&#39;], [&#34;\\(&#34;,&#34;\\)&#34;] ],displayMath: [ [&#39;$$&#39;,&#39;$$&#39;], [&#34;</description>
     </item>
     
   </channel>
