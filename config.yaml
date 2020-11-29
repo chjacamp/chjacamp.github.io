@@ -18,8 +18,8 @@ params:
   keywords: ''
   mainSections: post
   math:
-    enable: true
-    use: katex
+    enable: yes
+    use: mathjax
   profilePicture: images/headshot.png
   socialIcons:
     - icon: fab fa-linkedin

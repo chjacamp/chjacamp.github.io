@@ -13,6 +13,8 @@ Categories: []
 DisableComments: no
 ---
 
+`r blogdown::shortcodes('partial', 'math.html .')`
+
 Much of my time spent R programming revolves around figuring out ways to automate the creation of shiny reports. During the past two years, I've found the following functions indispensable:
 
 ### 1. `browser` and `shinyjs::logjs` - debugging functions
