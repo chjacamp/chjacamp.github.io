@@ -11,7 +11,7 @@ publishDir: docs
 params:
   author: Christopher Campbell
   customCss: ["css/styles.css"]
-  customJs: []
+  customJs: ["js/MathJax.js"]
   description: Doing statistics. Wrongly.
   favicon: favicons/
   images: images/site-feature-image.png

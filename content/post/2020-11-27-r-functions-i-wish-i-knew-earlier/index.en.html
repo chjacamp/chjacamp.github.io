@@ -17,7 +17,6 @@ DisableComments: no
 <script src="{{< relref "post/2020-11-27-r-functions-i-wish-i-knew-earlier/index.en.html" >}}index.en_files/anchor-sections/anchor-sections.js"></script>
 
 
-{{% partial "math.html ." %}}
 <p>Much of my time spent R programming revolves around figuring out ways to automate the creation of shiny reports. During the past two years, I’ve found the following functions indispensable:</p>
 <div id="browser-and-shinyjslogjs---debugging-functions" class="section level3">
 <h3>1. <code>browser</code> and <code>shinyjs::logjs</code> - debugging functions</h3>
@@ -52,7 +51,7 @@ DisableComments: no
 ##     formals(FUNV) &lt;- formals(FUN)
 ##     FUNV
 ## }
-## &lt;bytecode: 0x0000000015f55690&gt;
+## &lt;bytecode: 0x0000000015c4d668&gt;
 ## &lt;environment: namespace:base&gt;</code></pre>
 <p>Boy, that’s pretty complicated. But now, maybe we can add a call to browser() in the code to better understand what is happening, line by line.</p>
 <pre class="r"><code>Vectorize_browser &lt;- function(FUN, vectorize.args = arg.names, 
@@ -129,17 +128,17 @@ my_tabPanels &lt;- lapply(my_tabs, shiny::tabPanel)
 # wont work - shiny::tabsetPanel(...=my_tabs)
 do.call(shiny::tabsetPanel, args = my_tabPanels)</code></pre>
 <div class="tabbable">
-<ul class="nav nav-tabs" data-tabsetid="8086">
+<ul class="nav nav-tabs" data-tabsetid="7089">
 <li class="active">
-<a href="#tab-8086-1" data-toggle="tab" data-value="tab1">tab1</a>
+<a href="#tab-7089-1" data-toggle="tab" data-value="tab1">tab1</a>
 </li>
 <li>
-<a href="#tab-8086-2" data-toggle="tab" data-value="tab2">tab2</a>
+<a href="#tab-7089-2" data-toggle="tab" data-value="tab2">tab2</a>
 </li>
 </ul>
-<div class="tab-content" data-tabsetid="8086">
-<div class="tab-pane active" data-value="tab1" id="tab-8086-1"></div>
-<div class="tab-pane" data-value="tab2" id="tab-8086-2"></div>
+<div class="tab-content" data-tabsetid="7089">
+<div class="tab-pane active" data-value="tab1" id="tab-7089-1"></div>
+<div class="tab-pane" data-value="tab2" id="tab-7089-2"></div>
 </div>
 </div>
 </div>
