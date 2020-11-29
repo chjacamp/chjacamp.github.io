@@ -49,4 +49,4 @@ menu:
 markup:
   goldmark:
     renderer:
-      unsafe: true
+      unsafe: yes
