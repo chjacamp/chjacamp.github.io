@@ -1,4 +1,4 @@
- $('document').ready(function() {
+$(document).ready(function() {
    
   $('.post-title').each(function () {
     var upper = $(this).html();
