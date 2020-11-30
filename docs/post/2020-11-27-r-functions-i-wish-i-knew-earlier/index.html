@@ -49,12 +49,15 @@
     <script type="text/javascript"
             src="https://chjacamp.github.io/js/anatole-header.min.e782db136ec18d105a4552702eac49f4620d6867da3fbf808bd53e806c96be6e.js"
             integrity="sha256-54LbE27BjRBaRVJwLqxJ9GINaGfaP7&#43;Ai9U&#43;gGyWvm4="
+            crossorigin="anonymous"></script><script type="text/javascript"
+            src="https://chjacamp.github.io/js/custom_jquery.min.4e40d680a3d5480a7843a3dcd5bfae891aaf77d9a648cb5a88e37971b290dc29.js"
+            integrity="sha256-TkDWgKPVSAp4Q6Pc1b&#43;uiRqvd9mmSMtaiON5cbKQ3Ck="
             crossorigin="anonymous"></script>
     <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://chjacamp.github.io/105"/>
 
 <meta name="twitter:title" content="R functions I wish I knew earlier"/>
-<meta name="twitter:description" content="Much of my time spent R programming revolves around figuring out ways to automate the creation of shiny reports; during the past two years, I’ve found the following functions indispensable."/>
+<meta name="twitter:description" content="Much of my time spent R programming revolves around figuring out ways to automate the creation of shiny reports; during the past two years, I’ve found the following functions pretty neat."/>
 
 </head>
 <body><div class="sidebar animated fadeInDown">
@@ -151,7 +154,7 @@
 <script src="/post/2020-11-27-r-functions-i-wish-i-knew-earlier/index.en_files/anchor-sections/anchor-sections.js"></script>
 
 
-<p>Much of my time spent R programming revolves around figuring out ways to automate the creation of shiny reports; during the past two years, I’ve found the following functions indispensable.</p>
+<p>Much of my time spent R programming revolves around figuring out ways to automate the creation of shiny reports; during the past two years, I’ve found the following functions pretty neat.</p>
 <div id="browser-and-shinyjslogjs---debugging-functions" class="section level3">
 <h3>1. <code>browser</code> and <code>shinyjs::logjs</code> - debugging functions</h3>
 <p><code>browser</code> interrupts a function and opens a session of R with access to the environment where browser was called from while <code>logjs</code> sends objects to the (web) browser console.</p>
@@ -185,7 +188,7 @@
 ##     formals(FUNV) &lt;- formals(FUN)
 ##     FUNV
 ## }
-## &lt;bytecode: 0x0000000015c36e40&gt;
+## &lt;bytecode: 0x0000000012368d60&gt;
 ## &lt;environment: namespace:base&gt;</code></pre>
 <p>Boy, that’s pretty complicated. But now, maybe we can add a call to browser() in the code to better understand what is happening, line by line.</p>
 <pre class="r"><code>Vectorize_browser &lt;- function(FUN, vectorize.args = arg.names, 
@@ -262,17 +265,17 @@ my_tabPanels &lt;- lapply(my_tabs, shiny::tabPanel)
 # wont work - shiny::tabsetPanel(...=my_tabs)
 do.call(shiny::tabsetPanel, args = my_tabPanels)</code></pre>
 <div class="tabbable">
-<ul class="nav nav-tabs" data-tabsetid="5451">
+<ul class="nav nav-tabs" data-tabsetid="6241">
 <li class="active">
-<a href="#tab-5451-1" data-toggle="tab" data-value="tab1">tab1</a>
+<a href="#tab-6241-1" data-toggle="tab" data-value="tab1">tab1</a>
 </li>
 <li>
-<a href="#tab-5451-2" data-toggle="tab" data-value="tab2">tab2</a>
+<a href="#tab-6241-2" data-toggle="tab" data-value="tab2">tab2</a>
 </li>
 </ul>
-<div class="tab-content" data-tabsetid="5451">
-<div class="tab-pane active" data-value="tab1" id="tab-5451-1"></div>
-<div class="tab-pane" data-value="tab2" id="tab-5451-2"></div>
+<div class="tab-content" data-tabsetid="6241">
+<div class="tab-pane active" data-value="tab1" id="tab-6241-1"></div>
+<div class="tab-pane" data-value="tab2" id="tab-6241-2"></div>
 </div>
 </div>
 </div>
