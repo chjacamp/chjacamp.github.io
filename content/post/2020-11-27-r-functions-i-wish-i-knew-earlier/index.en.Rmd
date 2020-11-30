@@ -13,7 +13,7 @@ Categories: []
 DisableComments: no
 ---
 
-Much of my time spent R programming revolves around figuring out ways to automate the creation of shiny reports; during the past two years, I've found the following functions indispensable.
+Much of my time spent R programming revolves around figuring out ways to automate the creation of shiny reports; during the past two years, I've found the following functions pretty neat.
 
 ### 1. `browser` and `shinyjs::logjs` - debugging functions
 
