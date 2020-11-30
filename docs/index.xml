@@ -6,7 +6,16 @@
     <description>Recent content on Statistics, wrongly.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 27 Nov 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://chjacamp.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 28 Nov 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://chjacamp.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Lambdas Should Contain Less Information than their Output</title>
+      <link>https://chjacamp.github.io/post/2020-11-28-lambdas-should-contain-less-information-than-their-output/</link>
+      <pubDate>Sat, 28 Nov 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://chjacamp.github.io/post/2020-11-28-lambdas-should-contain-less-information-than-their-output/</guid>
+      <description>The standard advice given to new programmers for writing good functions goes like this:</description>
+    </item>
+    
     <item>
       <title>R functions I wish I knew earlier</title>
       <link>https://chjacamp.github.io/post/2020-11-27-r-functions-i-wish-i-knew-earlier/</link>

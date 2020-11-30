@@ -1,0 +1,130 @@
+---
+title: "Lambdas Should Contain Less Information than their Output"
+author: "Christopher Campbell"
+date: '2020-11-28'
+slug: []
+categories: R
+tags: programming
+Description: ''
+Tags: []
+Categories: []
+DisableComments: no
+---
+
+The standard advice given to new programmers for writing good functions goes like this:
+
+* Functions should be x lines (or fit on a horizontal monitor or fit on a vertical monitor)
+* Functions should "do one thing well"
+
+One thing I hadn't seen is advice for how much information lambdas (function bodies) should contain with respect to their outputs and environments they live in, which is a more specific version of the advice above.
+
+I find two restrictions on functions to be useful: 
+
+1) lambdas should contain less information than the object or function they return, and 
+2) functions should not induce other functions to break restriction #1.
+
+Call the set of functions `$\ell$` which meet these criteria `$\mathcal{L}$`.
+
+Effectively, restriction #1 gives rise to a class of lambdas that are very long while restriction #2 limits the length of that class of lambdas.
+
+### Reducing Lambdas and the Copy/Paste Criterion
+
+I find it is helpful to create functions which are more succinct in their body than the output they produce. For example, a simple call to `lm` can give you back a very large object - 
+
+```{r}
+data(mtcars)
+fit <- lm(hp~mpg, mtcars)
+fit
+```
+
+We can inspect the length of the given object by the # of lines of code required to produce it. An approximate way to do so would be to inspect the length of `dput(fit)` (though we could also compare bytes in the lambda vs bytes in the object our function returned).
+
+```{r}
+length(capture.output(dput(fit)))
+```
+
+A function in `$\mathcal{L}$` has an output that is generally not easily recoverable from its inputs. So a way to think about `$\mathcal{L}$` is to ask: could I simply copy/paste parts of the output together, along with some variables, to get back to the function body? If the answer is yes, the function has failed to meet the copy/paste criterion and is not a member of `$\mathcal{L}$`.
+
+Here's an example to describe what I mean. Say we have a very simple function which creates a title for a website.
+
+```{r}
+add_title <- function(title, folder, logo_path) {
+  shiny::HTML(paste0('<title>', title, '<img src=/', folder, '/', logo_path, '</img> </title>'))
+}
+
+site_header <- add_title('My Site', 'christopher', 'logo.png')
+as.character(site_header)
+```
+
+Notice that the body of the function is just the same thing as pasting together the HTML output. The body of the function has not reduced any information and clearly fails the copy/paste criterion.
+
+In SAS, so-called macros can be used to create these sorts of functions - ones which, by their nature, will fail the copy/paste criterion. This is a very good reason to not use SAS.
+
+#### Why does this matter?
+It matters due to two things: 1) maintainability and 2) broadest-case use.
+
+For maintainability, say we notice that a width argument needs to be added to the `add_title` function - so we go to the function and add a width argument inside the `<img>` tag. Now, you want to add a default width but which width should be default? This probably depends on how/where your function is used. So now you have to go to each use of the function and add a width argument with the proper size - clearly less efficient than just directly using the lambda and changing the lambda wherever width is needed to be specified.
+
+For broadest-case use, since the body of your function needs to be amended wherever it goes, it can't actually have been accomplishing much. 
+
+In summary, you've introduced complexity without drawing much benefit.
+
+#### How do I fix this?
+
+One easy way a function can increase output relative to the length of a lambda is through a `for` loop or `apply`-family statement, assuming the operation you're trying to replace is not already vectorized. Consider:
+
+```{r}
+data(mtcars)
+nested_models <- function(data, formula_list) {
+  lapply(formula_list, stats::lm, data)
+}
+
+nested_models(mtcars, list(hp~cyl, hp~cyl+mpg))
+```
+
+The output clearly is more complicated than its lambda. Part of this is from `lm` but the part we are concerned with is the composition with `lapply`. 
+
+#### Reducing burden on downstream functions
+
+A similar consideration for functions is to reduce their burden on downstream functions. That is, the objects they return should be more complicated than the lambda which produced them, but should not be so complicated as to complicate downstream lambdas (which may cause the downstream lambda to be as complex as its output).
+
+Consider a function which seems innocuous enough:
+
+```{r}
+lm_message <- function(data, formula, secret_message) {
+  list(fit=stats::lm(formula, data), 
+       secret_message=secret_message)
+}
+```
+
+Say we expect a user to want to recover the secret message, so we write a function to do so:
+
+```{r}
+get_secret_message <- function(lm_message) {
+  lm_message[['secret_message']]
+}
+
+get_secret_message(lm_message(mtcars, hp~cyl, 'my_secret_message'))
+
+```
+But the value of `get_secret_message` is no more complicated than its lambda. Hence, by our rule, `get_secret_message` breaks rule #1. But also, functions should not induce another function to break rule #1 vis-à-vis their downstream use. So `lm_message` is also not in `$\mathcal{L}$`. Hence we should *not* add an argument for secret_message to `lm_message`. Instead we should come up with a separate function for passing messages.
+
+### Caveats
+
+Clearly, this advice cannot be good advice for every situation. For example, restriction #1 eliminates some alias functionals of `$\ell$` (though not alias functions).
+
+Also, real life examples are much more complicated. Lambdas will depend on typical use cases, which may make `add_title` a perfectly acceptable function in some circumstances. In addition, calling a lambda "complicated" or taking the difference in code needed to generate the output vs. code needed in the lambda is not straightforward in many examples - it is a judgment call. For example, I would argue that
+
+```{r}
+function(ints) {
+  f <- numeric(length(ints))
+  for(i in seq_along(ints)) {
+    f[i] <- i+1
+  }
+}
+```
+
+is not in `$\mathcal{L}$` but it passes the copy/paste criterion.
+
+Finally, simple functions can be made to have more appropriate names, such as the namespace function `ns` in shiny. So functions not in `$\mathcal{L}$` can be quite useful.
+

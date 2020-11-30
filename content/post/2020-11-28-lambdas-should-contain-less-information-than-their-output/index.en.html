@@ -1,0 +1,130 @@
+---
+title: "Lambdas Should Contain Less Information than their Output"
+author: "Christopher Campbell"
+date: '2020-11-28'
+slug: []
+categories: R
+tags: programming
+Description: ''
+Tags: []
+Categories: []
+DisableComments: no
+---
+
+<link href="{{< relref "post/2020-11-28-lambdas-should-contain-less-information-than-their-output/index.en.html" >}}index.en_files/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<script src="{{< relref "post/2020-11-28-lambdas-should-contain-less-information-than-their-output/index.en.html" >}}index.en_files/anchor-sections/anchor-sections.js"></script>
+
+
+<p>The standard advice given to new programmers for writing good functions goes like this:</p>
+<ul>
+<li>Functions should be x lines (or fit on a horizontal monitor or fit on a vertical monitor)</li>
+<li>Functions should “do one thing well”</li>
+</ul>
+<p>One thing I hadn’t seen is advice for how much information lambdas (function bodies) should contain with respect to their outputs and environments they live in, which is a more specific version of the advice above.</p>
+<p>I find two restrictions on functions to be useful:</p>
+<ol style="list-style-type: decimal">
+<li>lambdas should contain less information than the object or function they return, and</li>
+<li>functions should not induce other functions to break restriction #1.</li>
+</ol>
+<p>Call the set of functions <code>$\ell$</code> which meet these criteria <code>$\mathcal{L}$</code>.</p>
+<p>Effectively, restriction #1 gives rise to a class of lambdas that are very long while restriction #2 limits the length of that class of lambdas.</p>
+<div id="reducing-lambdas-and-the-copypaste-criterion" class="section level3">
+<h3>Reducing Lambdas and the Copy/Paste Criterion</h3>
+<p>I find it is helpful to create functions which are more succinct in their body than the output they produce. For example, a simple call to <code>lm</code> can give you back a very large object -</p>
+<pre class="r"><code>data(mtcars)
+fit &lt;- lm(hp~mpg, mtcars)
+fit</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = hp ~ mpg, data = mtcars)
+## 
+## Coefficients:
+## (Intercept)          mpg  
+##      324.08        -8.83</code></pre>
+<p>We can inspect the length of the given object by the # of lines of code required to produce it. An approximate way to do so would be to inspect the length of <code>dput(fit)</code> (though we could also compare bytes in the lambda vs bytes in the object our function returned).</p>
+<pre class="r"><code>length(capture.output(dput(fit)))</code></pre>
+<pre><code>## [1] 92</code></pre>
+<p>A function in <code>$\mathcal{L}$</code> has an output that is generally not easily recoverable from its inputs. So a way to think about <code>$\mathcal{L}$</code> is to ask: could I simply copy/paste parts of the output together, along with some variables, to get back to the function body? If the answer is yes, the function has failed to meet the copy/paste criterion and is not a member of <code>$\mathcal{L}$</code>.</p>
+<p>Here’s an example to describe what I mean. Say we have a very simple function which creates a title for a website.</p>
+<pre class="r"><code>add_title &lt;- function(title, folder, logo_path) {
+  shiny::HTML(paste0(&#39;&lt;title&gt;&#39;, title, &#39;&lt;img src=/&#39;, folder, &#39;/&#39;, logo_path, &#39;&lt;/img&gt; &lt;/title&gt;&#39;))
+}
+
+site_header &lt;- add_title(&#39;My Site&#39;, &#39;christopher&#39;, &#39;logo.png&#39;)
+as.character(site_header)</code></pre>
+<pre><code>## [1] &quot;&lt;title&gt;My Site&lt;img src=/christopher/logo.png&lt;/img&gt; &lt;/title&gt;&quot;</code></pre>
+<p>Notice that the body of the function is just the same thing as pasting together the HTML output. The body of the function has not reduced any information and clearly fails the copy/paste criterion.</p>
+<p>In SAS, so-called macros can be used to create these sorts of functions - ones which, by their nature, will fail the copy/paste criterion. This is a very good reason to not use SAS.</p>
+<div id="why-does-this-matter" class="section level4">
+<h4>Why does this matter?</h4>
+<p>It matters due to two things: 1) maintainability and 2) broadest-case use.</p>
+<p>For maintainability, say we notice that a width argument needs to be added to the <code>add_title</code> function - so we go to the function and add a width argument inside the <code>&lt;img&gt;</code> tag. Now, you want to add a default width but which width should be default? This probably depends on how/where your function is used. So now you have to go to each use of the function and add a width argument with the proper size - clearly less efficient than just directly using the lambda and changing the lambda wherever width is needed to be specified.</p>
+<p>For broadest-case use, since the body of your function needs to be amended wherever it goes, it can’t actually have been accomplishing much.</p>
+<p>In summary, you’ve introduced complexity without drawing much benefit.</p>
+</div>
+<div id="how-do-i-fix-this" class="section level4">
+<h4>How do I fix this?</h4>
+<p>One easy way a function can increase output relative to the length of a lambda is through a <code>for</code> loop or <code>apply</code>-family statement, assuming the operation you’re trying to replace is not already vectorized. Consider:</p>
+<pre class="r"><code>data(mtcars)
+nested_models &lt;- function(data, formula_list) {
+  lapply(formula_list, stats::lm, data)
+}
+
+nested_models(mtcars, list(hp~cyl, hp~cyl+mpg))</code></pre>
+<pre><code>## [[1]]
+## 
+## Call:
+## FUN(formula = X[[i]], data = ..1)
+## 
+## Coefficients:
+## (Intercept)          cyl  
+##      -51.05        31.96  
+## 
+## 
+## [[2]]
+## 
+## Call:
+## FUN(formula = X[[i]], data = ..1)
+## 
+## Coefficients:
+## (Intercept)          cyl          mpg  
+##      54.067       23.979       -2.775</code></pre>
+<p>The output clearly is more complicated than its lambda. Part of this is from <code>lm</code> but the part we are concerned with is the composition with <code>lapply</code>.</p>
+</div>
+<div id="reducing-burden-on-downstream-functions" class="section level4">
+<h4>Reducing burden on downstream functions</h4>
+<p>A similar consideration for functions is to reduce their burden on downstream functions. That is, the objects they return should be more complicated than the lambda which produced them, but should not be so complicated as to complicate downstream lambdas (which may cause the downstream lambda to be as complex as its output).</p>
+<p>Consider a function which seems innocuous enough:</p>
+<pre class="r"><code>lm_message &lt;- function(data, formula, secret_message) {
+  list(fit=stats::lm(formula, data), 
+       secret_message=secret_message)
+}</code></pre>
+<p>Say we expect a user to want to recover the secret message, so we write a function to do so:</p>
+<pre class="r"><code>get_secret_message &lt;- function(lm_message) {
+  lm_message[[&#39;secret_message&#39;]]
+}
+
+get_secret_message(lm_message(mtcars, hp~cyl, &#39;my_secret_message&#39;))</code></pre>
+<pre><code>## [1] &quot;my_secret_message&quot;</code></pre>
+<p>But the value of <code>get_secret_message</code> is no more complicated than its lambda. Hence, by our rule, <code>get_secret_message</code> breaks rule #1. But also, functions should not induce another function to break rule #1 vis-à-vis their downstream use. So <code>lm_message</code> is also not in <code>$\mathcal{L}$</code>. Hence we should <em>not</em> add an argument for secret_message to <code>lm_message</code>. Instead we should come up with a separate function for passing messages.</p>
+</div>
+</div>
+<div id="caveats" class="section level3">
+<h3>Caveats</h3>
+<p>Clearly, this advice cannot be good advice for every situation. For example, restriction #1 eliminates some alias functionals of <code>$\ell$</code> (though not alias functions).</p>
+<p>Also, real life examples are much more complicated. Lambdas will depend on typical use cases, which may make <code>add_title</code> a perfectly acceptable function in some circumstances. In addition, calling a lambda “complicated” or taking the difference in code needed to generate the output vs. code needed in the lambda is not straightforward in many examples - it is a judgment call. For example, I would argue that</p>
+<pre class="r"><code>function(ints) {
+  f &lt;- numeric(length(ints))
+  for(i in seq_along(ints)) {
+    f[i] &lt;- i+1
+  }
+}</code></pre>
+<pre><code>## function(ints) {
+##   f &lt;- numeric(length(ints))
+##   for(i in seq_along(ints)) {
+##     f[i] &lt;- i+1
+##   }
+## }</code></pre>
+<p>is not in <code>$\mathcal{L}$</code> but it passes the copy/paste criterion.</p>
+<p>Finally, simple functions can be made to have more appropriate names, such as the namespace function <code>ns</code> in shiny. So functions not in <code>$\mathcal{L}$</code> can be quite useful.</p>
+</div>
