@@ -11,7 +11,7 @@ publishDir: docs
 params:
   author: Christopher Campbell
   customCss: ["css/styles.css"]
-  customJs: ["js/custom_jquery.js"]
+  customJs: ["js/jquery.js", "js/custom_jquery.js"]
   description: Doing statistics. Wrongly.
   favicon: favicons/
   images: images/site-feature-image.png
