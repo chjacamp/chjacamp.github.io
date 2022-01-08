@@ -19,6 +19,16 @@ slug: []
 <script src="{{< blogdown/postref >}}index.en_files/header-attrs/header-attrs.js"></script>
 
 
+<pre class="r"><code>library(dplyr); library(ggplot2)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;dplyr&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     filter, lag</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     intersect, setdiff, setequal, union</code></pre>
+<pre class="r"><code>knitr::opts_chunk$set(echo=FALSE)</code></pre>
 <p>I recently saw several related errors come up in multiple presentations. The presenters claimed that:</p>
 <ol style="list-style-type: decimal">
 <li>Deviations from normality made linear regression inappropriate to use, and</li>
@@ -26,11 +36,28 @@ slug: []
 </ol>
 <p>Both are incorrect, but it’s worth reviewing the basics again to understand why.</p>
 <p>Regression can be understood as a way to directly model some output <span class="math inline">\(Y\)</span> given some information <span class="math inline">\(X\)</span>. It is natural to condition on <span class="math inline">\(X\)</span> when doing so, since for some function <span class="math inline">\(f(x)\)</span> of the observed <span class="math inline">\(X=x\)</span>, we have</p>
-<p><span class="math display">\[\mathbb{E}[L(f(x), Y)]=\mathbb{E}\,\big[\mathbb{E} \,L(f(x)|Y\,|\,x\big],\]</span>
-and the quantity on the right gives the optimal predictor of <span class="math inline">\(Y\)</span> as $g(x)= $</p>
-<div id="men-v-women-example" class="section level1">
-<h1>men v women example</h1>
+<p><span class="math display">\[\mathbb{E}[L(f(x), Y)]=\mathbb{E}\,\big[\mathbb{E} \,L(f(x)|Y)\,|\,x\big],\]</span>
+and the quantity on the right gives the optimal predictor of <span class="math inline">\(Y\)</span> as <span class="math inline">\(g(x)=\underset{a}{\text{argmin}} \big[\mathbb{E} \,L(a|Y)\,|\,x\big].\)</span></p>
+<p>That is, <span class="math inline">\(g(x)\)</span> is the intended “regression function” we wish to achieve and it is conditional on a realized unit of information <span class="math inline">\(x\)</span>. This leads us to treat error distributions as fixed, <em>given</em> a particular <span class="math inline">\(x\)</span> value.</p>
+<div id="first-practical-example" class="section level2">
+<h2>First Practical Example</h2>
+<p>Say you run across the following data, plotted with a density estimate:</p>
+<p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>The data are clearly not normal right? If you were to run a K-S test or make a qqplot for the data, you may reject the assumption of normality.</p>
+<p>However, given some information <span class="math inline">\(x\)</span>, the data could look normal:</p>
+<p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>The point I am making here is a simple one: a marginal pictures of your data may not be useful in making distributional assumptions. In fact, the data here was actually had the following mean function:</p>
+<p><span class="math display">\[\mathbb{E}\,[Y_i\,|\,x_i] = \mathbb{I}[x_i = \text{Male}] \cdot 60 + \mathbb{I}[x_i = \text{Female}] \cdot 48\]</span>
+If we choose to integrate out over <span class="math inline">\(x\)</span>, we obtain</p>
+<p><span class="math display">\[\mathbb{E} \, \big[ \mathbb{E}\,Y_i\,|\,x_i \big] = \mathbb{E}[Y_i]= \mathbb{P}(x_i = \text{Male}) \cdot 60 + \mathbb{P}(x_i = \text{Female}) \cdot 48.\]</span></p>
+<p>This is a mixture of mean functions depending on the probabilities of <span class="math inline">\(X\)</span>. Moreover, if the data are normal given <span class="math inline">\(X=x\)</span>, the data are not normal marginally.</p>
 </div>
-<div id="zero-inflated-poisson-example" class="section level1">
-<h1>zero-inflated poisson example</h1>
+<div id="zero-inflated-poisson" class="section level1">
+<h1>Zero-inflated Poisson</h1>
+<p>Count data are said to follow a zero-inflated poisson distribution if they are a mixture of a poisson distribution and Dirac measure at 0. If one is to use a Poisson random component, the typical advice is to check if there are “too many” zero values to be accommodated.</p>
+<p>When the models become more complex, however, checking for zero-inflation becomes more difficult (and again, a marginal picture won’t help!). Consider, for instance,</p>
+<p><span class="math display">\[Y_i|\pmb{x}_i \sim \text{Poisson}(\,\exp[\eta_i]\,)\]</span></p>
+<p><span class="math display">\[\exp[\eta_i] = \pmb{x}_i^T \beta\]</span></p>
+<p>Here, the Poisson assumption depends on the appropriateness of 1) the linear model in <span class="math inline">\(\beta\)</span>, 2) the link function <span class="math inline">\(\exp\)</span>, and 3) the actual random component.</p>
+<p>One may still perform checks for zero-inflation simply by simulating from a fitted model. That is, taking <span class="math inline">\(Y^{\text{rep}} \sim Poisson(\, \hat{\eta}\,)\)</span> and checking the proportion of zeros from the model to the actual proportion.</p>
 </div>

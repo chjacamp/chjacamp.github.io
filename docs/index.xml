@@ -13,7 +13,7 @@
       <pubDate>Fri, 07 Jan 2022 00:00:00 +0000</pubDate>
       
       <guid>https://chjacamp.github.io/post/2022-01-07-a-common-regression-mistake-in-choosing-error-distributions/</guid>
-      <description>I recently saw several related errors come up in multiple presentations.</description>
+      <description>library(dplyr); library(ggplot2)## ## Attaching package: &amp;#39;dplyr&amp;#39;## The following objects are masked from &amp;#39;package:stats&amp;#39;:## ## filter, lag## The following objects are masked from &amp;#39;package:base&amp;#39;:## ## intersect, setdiff, setequal, unionknitr::opts_chunk$set(echo=FALSE)I recently saw several related errors come up in multiple presentations.</description>
     </item>
     
     <item>
