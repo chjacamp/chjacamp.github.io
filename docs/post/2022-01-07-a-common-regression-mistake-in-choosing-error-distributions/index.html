@@ -171,9 +171,9 @@ and the quantity on the right gives the optimal predictor of <span class="math i
 <p>However, given some information <span class="math inline">\(x\)</span>, the data could look normal:</p>
 <p><img src="https://chjacamp.github.io/post/2022-01-07-a-common-regression-mistake-in-choosing-error-distributions/index.en_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <p>The point I am making here is a simple one: a marginal pictures of your data may not be useful in making distributional assumptions. In fact, the data here was actually had the following mean function:</p>
-<p><span class="math display">\[\mathbb{E}\,[Y_i\,|\,x_i] = \mathbb{I}[x_i = \text{Male}] \cdot 60 + \mathbb{I}[x_i = \text{Female}] \cdot 48\]</span>
+<p><span class="math display">\[\mathbb{E}\,[Y_i\,|\,x_i] = \mathbb{I}[x_i = \text{Male}] \cdot 70 + \mathbb{I}[x_i = \text{Female}] \cdot 65\]</span>
 If we choose to integrate out over <span class="math inline">\(x\)</span>, we obtain</p>
-<p><span class="math display">\[\mathbb{E} \, \big[ \mathbb{E}\,Y_i\,|\,x_i \big] = \mathbb{E}[Y_i]= \mathbb{P}(x_i = \text{Male}) \cdot 60 + \mathbb{P}(x_i = \text{Female}) \cdot 48.\]</span></p>
+<p><span class="math display">\[\mathbb{E} \, \big[ \mathbb{E}\,Y_i\,|\,x_i \big] = \mathbb{E}[Y_i]= \mathbb{P}(x_i = \text{Male}) \cdot 70 + \mathbb{P}(x_i = \text{Female}) \cdot 65.\]</span></p>
 <p>This is a mixture of mean functions depending on the probabilities of <span class="math inline">\(X\)</span>. Moreover, if the data are normal given <span class="math inline">\(X=x\)</span>, the data are not normal marginally.</p>
 </div>
 <div id="zero-inflated-poisson" class="section level2">

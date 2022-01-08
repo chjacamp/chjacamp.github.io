@@ -64,10 +64,10 @@ ex %>%
 
 The point I am making here is a simple one: a marginal pictures of your data may not be useful in making distributional assumptions. In fact, the data here was actually had the following mean function:
 
-$$\mathbb{E}\,[Y_i\,|\,x_i] = \mathbb{I}[x_i = \text{Male}] \cdot 60 + \mathbb{I}[x_i = \text{Female}] \cdot 48$$
+$$\mathbb{E}\,[Y_i\,|\,x_i] = \mathbb{I}[x_i = \text{Male}] \cdot 70 + \mathbb{I}[x_i = \text{Female}] \cdot 65$$
 If we choose to integrate out over $x$, we obtain
 
-$$\mathbb{E} \, \big[ \mathbb{E}\,Y_i\,|\,x_i \big] = \mathbb{E}[Y_i]= \mathbb{P}(x_i = \text{Male}) \cdot 60 + \mathbb{P}(x_i = \text{Female}) \cdot 48.$$
+$$\mathbb{E} \, \big[ \mathbb{E}\,Y_i\,|\,x_i \big] = \mathbb{E}[Y_i]= \mathbb{P}(x_i = \text{Male}) \cdot 70 + \mathbb{P}(x_i = \text{Female}) \cdot 65.$$
 
 This is a mixture of mean functions depending on the probabilities of $X$. Moreover, if the data are normal given $X=x$, the data are not normal marginally.
 
