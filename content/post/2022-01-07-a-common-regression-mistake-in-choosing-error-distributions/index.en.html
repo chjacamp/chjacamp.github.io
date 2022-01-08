@@ -52,8 +52,8 @@ If we choose to integrate out over <span class="math inline">\(x\)</span>, we ob
 <p><span class="math display">\[\mathbb{E} \, \big[ \mathbb{E}\,Y_i\,|\,x_i \big] = \mathbb{E}[Y_i]= \mathbb{P}(x_i = \text{Male}) \cdot 60 + \mathbb{P}(x_i = \text{Female}) \cdot 48.\]</span></p>
 <p>This is a mixture of mean functions depending on the probabilities of <span class="math inline">\(X\)</span>. Moreover, if the data are normal given <span class="math inline">\(X=x\)</span>, the data are not normal marginally.</p>
 </div>
-<div id="zero-inflated-poisson" class="section level1">
-<h1>Zero-inflated Poisson</h1>
+<div id="zero-inflated-poisson" class="section level2">
+<h2>Zero-inflated Poisson</h2>
 <p>Count data are said to follow a zero-inflated poisson distribution if they are a mixture of a poisson distribution and Dirac measure at 0. If one is to use a Poisson random component, the typical advice is to check if there are “too many” zero values to be accommodated.</p>
 <p>When the models become more complex, however, checking for zero-inflation becomes more difficult (and again, a marginal picture won’t help!). Consider, for instance,</p>
 <p><span class="math display">\[Y_i|\pmb{x}_i \sim \text{Poisson}(\,\exp[\eta_i]\,)\]</span></p>

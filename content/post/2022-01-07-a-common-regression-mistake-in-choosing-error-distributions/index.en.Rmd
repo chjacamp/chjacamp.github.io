@@ -71,7 +71,7 @@ $$\mathbb{E} \, \big[ \mathbb{E}\,Y_i\,|\,x_i \big] = \mathbb{E}[Y_i]= \mathbb{P
 
 This is a mixture of mean functions depending on the probabilities of $X$. Moreover, if the data are normal given $X=x$, the data are not normal marginally.
 
-# Zero-inflated Poisson
+## Zero-inflated Poisson
 
 Count data are said to follow a zero-inflated poisson distribution if they are a mixture of a poisson distribution and Dirac measure at 0. If one is to use a Poisson random component, the typical advice is to check if there are "too many" zero values to be accommodated.
 
