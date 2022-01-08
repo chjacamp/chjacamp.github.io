@@ -1,5 +1,5 @@
 ---
-title: "Lambdas Should Contain Less Information than their Output"
+title: "Lambdas should contain less information than their output"
 author: "Christopher Campbell"
 date: '2020-11-28'
 slug: []

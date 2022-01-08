@@ -6,7 +6,16 @@
     <description>Recent content on Statistics, wrongly.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 28 Nov 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://chjacamp.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 07 Jan 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://chjacamp.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>A common regression mistake in choosing error distributions</title>
+      <link>https://chjacamp.github.io/post/2022-01-07-a-common-regression-mistake-in-choosing-error-distributions/</link>
+      <pubDate>Fri, 07 Jan 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://chjacamp.github.io/post/2022-01-07-a-common-regression-mistake-in-choosing-error-distributions/</guid>
+      <description>I recently saw several related errors come up in multiple presentations.</description>
+    </item>
+    
     <item>
       <title>Lambdas Should Contain Less Information than their Output</title>
       <link>https://chjacamp.github.io/post/2020-11-28-lambdas-should-contain-less-information-than-their-output/</link>

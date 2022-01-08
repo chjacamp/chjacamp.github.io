@@ -1,0 +1,36 @@
+---
+title: "A common regression mistake in choosing error distributions"
+author: "Christopher Campbell"
+date: '2022-01-07'
+output:
+  html_document:
+    df_print: paged
+categories: Regression
+tags:
+- regression
+- analytics
+Description: ''
+Tags: []
+Categories: []
+DisableComments: no
+slug: []
+---
+
+<script src="{{< blogdown/postref >}}index.en_files/header-attrs/header-attrs.js"></script>
+
+
+<p>I recently saw several related errors come up in multiple presentations. The presenters claimed that:</p>
+<ol style="list-style-type: decimal">
+<li>Deviations from normality made linear regression inappropriate to use, and</li>
+<li>A density estimate of your data could be useful in choosing the distributional form of your response variable (a normal distribution in this case).</li>
+</ol>
+<p>Both are incorrect, but it’s worth reviewing the basics again to understand why.</p>
+<p>Regression can be understood as a way to directly model some output <span class="math inline">\(Y\)</span> given some information <span class="math inline">\(X\)</span>. It is natural to condition on <span class="math inline">\(X\)</span> when doing so, since for some function <span class="math inline">\(f(x)\)</span> of the observed <span class="math inline">\(X=x\)</span>, we have</p>
+<p><span class="math display">\[\mathbb{E}[L(f(x), Y)]=\mathbb{E}\,\big[\mathbb{E} \,L(f(x)|Y\,|\,x\big],\]</span>
+and the quantity on the right gives the optimal predictor of <span class="math inline">\(Y\)</span> as $g(x)= $</p>
+<div id="men-v-women-example" class="section level1">
+<h1>men v women example</h1>
+</div>
+<div id="zero-inflated-poisson-example" class="section level1">
+<h1>zero-inflated poisson example</h1>
+</div>

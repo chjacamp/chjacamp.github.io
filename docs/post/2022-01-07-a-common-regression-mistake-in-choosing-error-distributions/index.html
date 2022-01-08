@@ -14,7 +14,7 @@
 <script type="text/javascript"
     src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script><head>
-    <title> Christopher Campbell | 404 Page not found </title>
+    <title> Christopher Campbell | A common regression mistake in choosing error distributions </title>
 
     
     <meta charset="utf-8"><meta name="generator" content="Hugo 0.78.2" /><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -40,7 +40,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="https://chjacamp.github.io/favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="https://chjacamp.github.io/favicons/favicon-16x16.png">
 
-    <link rel="canonical" href="https://chjacamp.github.io/404.html">
+    <link rel="canonical" href="https://chjacamp.github.io/post/2022-01-07-a-common-regression-mistake-in-choosing-error-distributions/">
 
     
     
@@ -56,8 +56,8 @@
     <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://chjacamp.github.io/105"/>
 
-<meta name="twitter:title" content="404 Page not found"/>
-<meta name="twitter:description" content="Doing statistics. Wrongly."/>
+<meta name="twitter:title" content="A common regression mistake in choosing error distributions"/>
+<meta name="twitter:description" content="I recently saw several related errors come up in multiple presentations."/>
 
 </head>
 <body><div class="sidebar animated fadeInDown">
@@ -134,12 +134,54 @@
 
     <div class="autopagerize_page_element">
         <div class="content">
-    <div class="page_404">
-        <h1>404</h1>
-        <h2>Page Not Found</h2>
-        <p>Sorry, this page does not exist.</p>
-        <p>You can head back to <a href="https://chjacamp.github.io">homepage</a>.</p>
+    <div class="post animated fadeInDown">
+        <div class="post-content">
+
+            <div class="post-title">
+                <h3>A common regression mistake in choosing error distributions</h3>
+                
+                    <div class="info">
+                        <em class="fas fa-calendar-day"></em>
+                        <span class="date">Fri, Jan 7, 2022</span>
+                        <em class="fas fa-stopwatch"></em>
+                        <span class="reading-time">One-minute read</span>
+                    </div>
+                
+            </div>
+
+            
+<script src="https://chjacamp.github.io/post/2022-01-07-a-common-regression-mistake-in-choosing-error-distributions/index.en_files/header-attrs/header-attrs.js"></script>
+
+
+<p>I recently saw several related errors come up in multiple presentations. The presenters claimed that:</p>
+<ol style="list-style-type: decimal">
+<li>Deviations from normality made linear regression inappropriate to use, and</li>
+<li>A density estimate of your data could be useful in choosing the distributional form of your response variable (a normal distribution in this case).</li>
+</ol>
+<p>Both are incorrect, but it’s worth reviewing the basics again to understand why.</p>
+<p>Regression can be understood as a way to directly model some output <span class="math inline">\(Y\)</span> given some information <span class="math inline">\(X\)</span>. It is natural to condition on <span class="math inline">\(X\)</span> when doing so, since for some function <span class="math inline">\(f(x)\)</span> of the observed <span class="math inline">\(X=x\)</span>, we have</p>
+<p><span class="math display">\[\mathbb{E}[L(f(x), Y)]=\mathbb{E}\,\big[\mathbb{E} \,L(f(x)|Y\,|\,x\big],\]</span>
+and the quantity on the right gives the optimal predictor of <span class="math inline">\(Y\)</span> as $g(x)= $</p>
+<div id="men-v-women-example" class="section level1">
+<h1>men v women example</h1>
+</div>
+<div id="zero-inflated-poisson-example" class="section level1">
+<h1>zero-inflated poisson example</h1>
+</div>
+
+        </div>
+        <div class="post-footer">
+            <div class="info">
+                
+                
+            </div>
+        </div>
+
+        
+            
+        
     </div>
+
 
         </div>
     </div>
