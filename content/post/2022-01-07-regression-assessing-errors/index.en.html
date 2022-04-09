@@ -1,5 +1,5 @@
 ---
-title: "A common regression mistake in choosing error distributions"
+title: "Regression: Assessing Errors"
 author: "Christopher Campbell"
 date: '2022-01-07'
 output:
@@ -46,8 +46,8 @@ If we choose to integrate out over <span class="math inline">\(x\)</span>, we ob
 <h2>Zero-inflated Poisson</h2>
 <p>Count data are said to follow a zero-inflated poisson distribution if they are a mixture of a poisson distribution and Dirac measure at 0. If one is to use a Poisson random component, the typical advice is to check if there are “too many” zero values to be accommodated.</p>
 <p>When the models become more complex, however, checking for zero-inflation becomes more difficult (and again, a marginal picture won’t help!). Consider, for instance,</p>
-<p><span class="math display">\[Y_i|\pmb{x}_i \sim \text{Poisson}(\,\exp[\eta_i]\,)\]</span></p>
-<p><span class="math display">\[\exp[\eta_i] = \pmb{x}_i^T \beta\]</span></p>
-<p>Here, the Poisson assumption depends on the appropriateness of 1) the linear model in <span class="math inline">\(\beta\)</span>, 2) the link function <span class="math inline">\(\exp\)</span>, and 3) the actual random component.</p>
-<p>One may still perform checks for zero-inflation simply by simulating from a fitted model. That is, taking <span class="math inline">\(Y^{\text{rep}} \sim Poisson(\, \hat{\eta}\,)\)</span> and checking the proportion of zeros from the model to the actual proportion.</p>
+<p><span class="math display">\[Y_i|\pmb{x}_i \sim \text{Poisson}(\eta_i)\]</span></p>
+<p><span class="math display">\[\log[\eta_i] = \pmb{x}_i^T \beta\]</span></p>
+<p>Here, the Poisson assumption depends on the appropriateness of 1) the linear model in <span class="math inline">\(\beta\)</span>, 2) the link function <span class="math inline">\(\log\)</span>, and 3) the actual random component.</p>
+<p>One may still perform checks for zero-inflation simply by simulating from a fitted model. That is, taking <span class="math inline">\(Y^{\text{rep}} \sim Poisson(\, \hat{\eta_i}\,)\)</span> and checking the proportion of zeros from the model to the actual proportion.</p>
 </div>

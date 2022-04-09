@@ -13,8 +13,7 @@ Categories: []
 DisableComments: no
 ---
 
-<link href="{{< relref "post/2020-11-27-r-functions-i-wish-i-knew-earlier/index.en.html" >}}index.en_files/anchor-sections/anchor-sections.css" rel="stylesheet" />
-<script src="{{< relref "post/2020-11-27-r-functions-i-wish-i-knew-earlier/index.en.html" >}}index.en_files/anchor-sections/anchor-sections.js"></script>
+<script src="{{< blogdown/postref >}}index.en_files/header-attrs/header-attrs.js"></script>
 
 
 <p>Much of my time spent R programming revolves around figuring out ways to automate the creation of shiny reports; during the past two years, I’ve found the following functions pretty neat.</p>
@@ -39,19 +38,24 @@ DisableComments: no
 ##     if (any(collisions)) 
 ##         stop(sQuote(&quot;FUN&quot;), &quot; may not have argument(s) named &quot;, 
 ##             paste(sQuote(arg.names[collisions]), collapse = &quot;, &quot;))
-##     FUNV &lt;- function() {
-##         args &lt;- lapply(as.list(match.call())[-1L], eval, parent.frame())
-##         names &lt;- if (is.null(names(args))) 
-##             character(length(args))
-##         else names(args)
-##         dovec &lt;- names %in% vectorize.args
-##         do.call(&quot;mapply&quot;, c(FUN = FUN, args[dovec], MoreArgs = list(args[!dovec]), 
-##             SIMPLIFY = SIMPLIFY, USE.NAMES = USE.NAMES))
-##     }
-##     formals(FUNV) &lt;- formals(FUN)
-##     FUNV
+##     rm(arg.names, collisions)
+##     (function() {
+##         FUNV &lt;- function() {
+##             args &lt;- lapply(as.list(match.call())[-1L], eval, 
+##                 parent.frame())
+##             names &lt;- if (is.null(names(args))) 
+##                 character(length(args))
+##             else names(args)
+##             dovec &lt;- names %in% vectorize.args
+##             do.call(&quot;mapply&quot;, c(FUN = FUN, args[dovec], MoreArgs = list(args[!dovec]), 
+##                 SIMPLIFY = SIMPLIFY, USE.NAMES = USE.NAMES))
+##         }
+##         formals(FUNV) &lt;- formals(FUN)
+##         environment(FUNV) &lt;- parent.env(environment())
+##         FUNV
+##     })()
 ## }
-## &lt;bytecode: 0x0000000012368d60&gt;
+## &lt;bytecode: 0x0000000011e2dc00&gt;
 ## &lt;environment: namespace:base&gt;</code></pre>
 <p>Boy, that’s pretty complicated. But now, maybe we can add a call to browser() in the code to better understand what is happening, line by line.</p>
 <pre class="r"><code>Vectorize_browser &lt;- function(FUN, vectorize.args = arg.names, 
@@ -128,17 +132,17 @@ my_tabPanels &lt;- lapply(my_tabs, shiny::tabPanel)
 # wont work - shiny::tabsetPanel(...=my_tabs)
 do.call(shiny::tabsetPanel, args = my_tabPanels)</code></pre>
 <div class="tabbable">
-<ul class="nav nav-tabs" data-tabsetid="6241">
+<ul class="nav nav-tabs" data-tabsetid="9015">
 <li class="active">
-<a href="#tab-6241-1" data-toggle="tab" data-value="tab1">tab1</a>
+<a href="#tab-9015-1" data-toggle="tab" data-value="tab1">tab1</a>
 </li>
 <li>
-<a href="#tab-6241-2" data-toggle="tab" data-value="tab2">tab2</a>
+<a href="#tab-9015-2" data-toggle="tab" data-value="tab2">tab2</a>
 </li>
 </ul>
-<div class="tab-content" data-tabsetid="6241">
-<div class="tab-pane active" data-value="tab1" id="tab-6241-1"></div>
-<div class="tab-pane" data-value="tab2" id="tab-6241-2"></div>
+<div class="tab-content" data-tabsetid="9015">
+<div class="tab-pane active" data-value="tab1" id="tab-9015-1"></div>
+<div class="tab-pane" data-value="tab2" id="tab-9015-2"></div>
 </div>
 </div>
 </div>
@@ -146,6 +150,6 @@ do.call(shiny::tabsetPanel, args = my_tabPanels)</code></pre>
 <h3>5. <code>system.file</code></h3>
 <p><code>system.file</code> is the answer to self-referencing within your own R package. It can find a file or folder within the user’s directory structure, just given a package name.</p>
 <pre class="r"><code>system.file(&#39;help&#39;, package=&#39;base&#39;)</code></pre>
-<pre><code>## [1] &quot;C:/PROGRA~1/R/R-40~1.3/library/base/help&quot;</code></pre>
+<pre><code>## [1] &quot;C:/PROGRA~1/R/R-41~1.2/library/base/help&quot;</code></pre>
 <p>For those who make heavy use of the ‘Inst’ directory and auxiliary javascript and CSS files, it’s nice to have a way to access those that works from machine to machine.</p>
 </div>

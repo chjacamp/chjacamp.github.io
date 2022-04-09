@@ -1,5 +1,5 @@
 ---
-title: "A common regression mistake in choosing error distributions"
+title: "Regression: Assessing Errors"
 author: "Christopher Campbell"
 date: '2022-01-07'
 output:
@@ -20,6 +20,7 @@ slug: []
 library(dplyr); library(ggplot2)
 knitr::opts_chunk$set(echo=FALSE)
 ```
+
 I recently saw several related errors come up in multiple presentations. The presenters claimed that:
 
 1. Deviations from normality made linear regression inappropriate to use, and
@@ -77,11 +78,11 @@ Count data are said to follow a zero-inflated poisson distribution if they are a
 
 When the models become more complex, however, checking for zero-inflation becomes more difficult (and again, a marginal picture won't help!). Consider, for instance, 
 
-$$Y_i|\pmb{x}_i \sim \text{Poisson}(\,\exp[\eta_i]\,)$$
+$$Y_i|\pmb{x}_i \sim \text{Poisson}(\eta_i)$$
 
-$$\exp[\eta_i] = \pmb{x}_i^T \beta$$
+$$\log[\eta_i] = \pmb{x}_i^T \beta$$
 
-Here, the Poisson assumption depends on the appropriateness of 1) the linear model in $\beta$, 2) the link function $\exp$, and 3) the actual random component.
+Here, the Poisson assumption depends on the appropriateness of 1) the linear model in $\beta$, 2) the link function $\log$, and 3) the actual random component.
 
-One may still perform checks for zero-inflation simply by simulating from a fitted model. That is, taking $Y^{\text{rep}} \sim Poisson(\, \hat{\eta}\,)$ and checking the proportion of zeros from the model to the actual proportion.
+One may still perform checks for zero-inflation simply by simulating from a fitted model. That is, taking $Y^{\text{rep}} \sim Poisson(\, \hat{\eta_i}\,)$ and checking the proportion of zeros from the model to the actual proportion.
 
